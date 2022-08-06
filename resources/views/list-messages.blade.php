@@ -56,7 +56,44 @@
 
             $(".delete-message").on("submit", function(e) {
                 e.preventDefault();
+
+                let button = $(this)
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this.",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
+                            },
+                            url: button.data("route"),
+                            data: {
+                                "_method": "delete"
+                            },
+                            success: function(response, textStatus, xhr) {
+                                Swal.fire({
+                                    icon: "success",
+                                    text: response,
+                                    showDenyButton: false,
+                                    showCancelButton: false,
+                                    confirmButtonText: "Go on",
+                                }).then((result) => {
+                                    window.location = '/admin/view-messages'
+                                })
+                            }
+                        })
+                    }
+                })
             });
+
+
 
         });
     </script>
@@ -93,10 +130,6 @@
                                     <form method="post" class="delete-message"
                                         data-route="{{ url('/admin/messages/' . $message->id . '/delete') }}"
                                         style="display:inline">
-
-                                        {{ method_field('DELETE') }}
-
-                                        @csrf
 
                                         <button type='submit' class="btn btn-danger btn-sm">Delete</button>
                                     </form>

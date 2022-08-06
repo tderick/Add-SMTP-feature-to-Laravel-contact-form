@@ -39,6 +39,15 @@ class ContactController extends Controller
         return view('details-message', compact('message'));
     }
 
+    // public function delete_message($id)
+    // {
+    //     $message = Contact::find($id);
+
+    //     if ($message) {
+    //         $message->delete();
+    //     }
+    //     return redirect('/admin/view-messages');
+    // }
     public function delete_message($id)
     {
         $message = Contact::find($id);
@@ -46,7 +55,7 @@ class ContactController extends Controller
         if ($message) {
             $message->delete();
         }
-        return redirect('/admin/view-messages');
+        return response('Message delete successfully', 200);
     }
 
     public function deleteMultipleMessages(Request $request)
