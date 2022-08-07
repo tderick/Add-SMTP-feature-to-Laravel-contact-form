@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 
+
 class ContactController extends Controller
 {
     public function index()
@@ -17,7 +18,8 @@ class ContactController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required',
-            'message' => 'required'
+            'message' => 'required',
+            'g-recaptcha-response' => 'required|recaptchav3:contact,0.5'
         ]);
 
         $requestData = $request->all();

@@ -3,11 +3,14 @@
 <head>
     <title>Contact Form</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    {!! RecaptchaV3::initJs() !!}
 </head>
 
 <body>
     <div class="container mt-5">
         <form method="post" action="/send-message">
+            {!! RecaptchaV3::field('contact') !!}
+
             @csrf
 
             @if (session('status'))
@@ -15,6 +18,8 @@
                     {{ session('status') }}
                 </div>
             @endif
+
+            
 
             <h3 class="text-center">Contact form</h3>
             <div class="form-group">
