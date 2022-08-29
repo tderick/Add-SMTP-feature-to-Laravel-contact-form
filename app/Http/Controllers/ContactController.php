@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
 
 
 class ContactController extends Controller
@@ -24,7 +26,9 @@ class ContactController extends Controller
 
         $requestData = $request->all();
 
-        Contact::create($requestData);
+        $contact = Contact::create($requestData);
+
+        Mail::to(env("ADMIN_EMAIL"))->send(new ContactMail($contact));
 
         return redirect('contact')->with("status", "Your message has been sent");
     }
