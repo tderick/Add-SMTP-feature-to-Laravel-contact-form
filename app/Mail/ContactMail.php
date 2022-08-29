@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Contact;
 
+
 class ContactMail extends Mailable
 {
     use Queueable, SerializesModels;

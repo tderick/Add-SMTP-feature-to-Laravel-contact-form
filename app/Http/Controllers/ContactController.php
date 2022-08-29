@@ -28,11 +28,11 @@ class ContactController extends Controller
 
         $contact = Contact::create($requestData);
 
-        // Mail::to(env("ADMIN_EMAIL"))->send(new ContactMail($contact));
-        Mail::to(env("ADMIN_EMAIL"))
-            ->cc(env("SECOND_ADMIN"))
-            ->bcc(env("THIRD_ADMIN"))
-            ->send(new ContactMail($contact));
+        Mail::to(env("ADMIN_EMAIL"))->send(new ContactMail($contact));
+        // Mail::to(env("ADMIN_EMAIL"))
+        //     ->cc(env("SECOND_ADMIN"))
+        //     ->bcc(env("THIRD_ADMIN"))
+        //     ->send(new ContactMail($contact));
 
         return redirect('contact')->with("status", "Your message has been sent");
     }
