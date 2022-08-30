@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactMail;
+use App\Models\Parameters;
 
 
 class ContactController extends Controller
@@ -28,7 +29,10 @@ class ContactController extends Controller
 
         $contact = Contact::create($requestData);
 
-        Mail::to(env("ADMIN_EMAIL"))->send(new ContactMail($contact));
+        $parameters = Parameters::where('id', 1)->first();
+        if ($parameters->is_email_notification_actived) {
+            Mail::to(env("ADMIN_EMAIL"))->send(new ContactMail($contact));
+        }
         // Mail::to(env("ADMIN_EMAIL"))
         //     ->cc(env("SECOND_ADMIN"))
         //     ->bcc(env("THIRD_ADMIN"))
@@ -40,6 +44,8 @@ class ContactController extends Controller
     public function listMessages()
     {
         $messages = Contact::all();
+
+
         return view('list-messages', compact('messages'));
     }
 
